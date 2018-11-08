@@ -16,7 +16,7 @@ npm install --save react-number
 ```js
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import ReactNumber from 'react-number';
+import ReactNumber from 'react-rand-number';
 
 import './index.less';
 class Demo extends Component {
