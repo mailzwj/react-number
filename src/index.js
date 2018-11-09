@@ -105,14 +105,17 @@ class ReactNumber extends Component {
                             offset += 10;
                         }
                         let id;
+                        let commaClass;
                         if (n.end === ',') {
                             commaCount++;
                             id = this.uid++;
+                            commaClass = true;
                         } else {
                             id = unit[i - commaCount];
+                            commaClass = false;
                         }
                         return (
-                            <div className="rn-item"
+                            <div className={`rn-item${commaClass ? (_props.showComma ? '' : ' hide-comma') : ''}`}
                                 key={`rn-item-${id}`}
                                 style={n.start === n.end ? null : {transform: `translate(0, -${offset * 10}%)`}}
                             >

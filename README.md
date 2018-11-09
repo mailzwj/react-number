@@ -32,7 +32,7 @@ class Demo extends Component {
         }, 1500);
     }
     render() {
-        return <ReactNumber className="my-class" number={this.state.number} />;
+        return <ReactNumber className="my-class" number={this.state.number} showComma={true} />;
     }
 }
 
@@ -45,6 +45,7 @@ render(<Demo />, page);
 
 * `number`: 用于显示的数字，必须是合法的数字
 * `className`: 自定义样式类名，可用于覆盖默认样式
+* `showComma`: 是否显示逗号分隔符，默认false
 
 ### DEMO演示
 

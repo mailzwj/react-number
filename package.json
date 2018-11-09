@@ -1,6 +1,6 @@
 {
   "name": "react-rand-number",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React component for number change effect",
   "main": "ReactNumber.min.js",
   "scripts": {
