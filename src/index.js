@@ -27,35 +27,11 @@ class ReactNumber extends Component {
     }
 
     initState = (number) => {
-        const _state = this.state || {};
-        const numberState = _state.numberState || [];
-        const nse = numberState.length - 1;
         number = number || 0;
         const source = this.numberToArray(number);
-        let count = 0;
-        let stateArray = [];
-        for (let end = source.length - 1; end >= 0; end--) {
-            const se = source[end];
-            const ne = numberState[nse - count];
-            let subState;
-            count++;
-            if (ne && ne.end !== se) {
-                subState = {
-                    start: ne.end,
-                    end: se
-                };
-            } else {
-                subState = {
-                    start: se,
-                    end: se
-                };
-            }
-            stateArray.unshift(subState);
-        }
         let newState = {
             number: number,
-            numberArray: source,
-            numberState: stateArray
+            numberArray: source
         };
 
         this.setState(newState);
@@ -70,15 +46,10 @@ class ReactNumber extends Component {
         return numArr;
     }
 
-    addItem = (no) => {
+    addItem = () => {
         let rs = [];
-        if (no.start === no.end) {
-            rs.push(<span className="rn-num" key={`uid-${this.uid++}`}>{no.end}</span>);
-        } else {
-            const start = parseInt(no.start || 0);
-            for(let i = 0; i < 10; i++) {
-                rs.push(<span className="rn-num" key={`num-${i}`}>{(start + i) % 10}</span>);
-            }
+        for(let i = 0; i < 10; i++) {
+            rs.push(<span className="rn-num" key={`num-${i}`}>{i}</span>);
         }
         return rs;
     }
@@ -90,26 +61,28 @@ class ReactNumber extends Component {
             return '';
             // throw 'number props required';
         }
-        const numberState = _state.numberState;
-        const total = numberState.length;
+        const numberArray = _state.numberArray;
+        const total = numberArray.length;
         const commaTotal = Math.floor(total / 4);
         let commaCount = 0;
-        let unit = this.positionId.slice(0, numberState.length - commaTotal);
+        let unit = this.positionId.slice(0, total - commaTotal);
         unit.reverse();
         return (
             <div className={`rn-wrapper${_props.className ? ' ' + _props.className : ''}`}>
                 {
-                    numberState.map((n, i) => {
-                        let offset = parseInt(n.end) - parseInt(n.start);
-                        if (offset < 0) {
-                            offset += 10;
-                        }
+                    numberArray.map((n, i) => {
+                        const isNotNum = isNaN(parseInt(n));
+                        let offset = parseInt(n) * 10;
                         let id;
                         let commaClass;
-                        if (n.end === ',') {
+                        if (isNotNum) {
                             commaCount++;
                             id = this.uid++;
-                            commaClass = true;
+                            if (n === ',') {
+                                commaClass = true;
+                            } else {
+                                commaClass = false;
+                            }
                         } else {
                             id = unit[i - commaCount];
                             commaClass = false;
@@ -117,9 +90,9 @@ class ReactNumber extends Component {
                         return (
                             <div className={`rn-item${commaClass ? (_props.showComma ? '' : ' hide-comma') : ''}`}
                                 key={`rn-item-${id}`}
-                                style={n.start === n.end ? null : {transform: `translate(0, -${offset * 10}%)`}}
+                                style={isNotNum ? null : {transform: `translate(0, -${offset}%)`}}
                             >
-                                { this.addItem(n) }
+                                { isNotNum ? <span className="rn-num" key={this.uid++}>{n}</span> : this.addItem() }
                             </div>
                         );
                     })
