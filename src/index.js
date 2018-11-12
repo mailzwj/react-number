@@ -12,6 +12,10 @@ class ReactNumber extends Component {
         };
         this.uid = 0;
         this.positionId = ['g', 's', 'b', 'q', 'w', 'sw', 'bw', 'qw', 'y', 'sy', 'by', 'qy', 'wy'];
+        this.themes = {
+            default: '',
+            block: 'rn-block'
+        };
     }
 
     componentDidMount() {
@@ -68,7 +72,7 @@ class ReactNumber extends Component {
         let unit = this.positionId.slice(0, total - commaTotal);
         unit.reverse();
         return (
-            <div className={`rn-wrapper${_props.className ? ' ' + _props.className : ''}`}>
+            <div className={`rn-wrapper${this.themes[_props.theme] ? ' ' + this.themes[_props.theme] : ''}${_props.className ? ' ' + _props.className : ''}`}>
                 {
                     numberArray.map((n, i) => {
                         const isNotNum = isNaN(parseInt(n));
@@ -92,7 +96,7 @@ class ReactNumber extends Component {
                                 key={`rn-item-${id}`}
                                 style={isNotNum ? null : {transform: `translate(0, -${offset}%)`}}
                             >
-                                { isNotNum ? <span className="rn-num" key={this.uid++}>{n}</span> : this.addItem() }
+                                { isNotNum ? <span className="rn-num rn-nan" key={this.uid++}>{n}</span> : this.addItem() }
                             </div>
                         );
                     })

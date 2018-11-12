@@ -21,7 +21,7 @@ class Demo extends Component {
     }
 
     render() {
-        return <ReactNumber className="my-class" number={this.state.number} showComma={true} />;
+        return <ReactNumber className="my-class" theme="block" number={this.state.number} showComma={true} />;
     }
 }
 
